@@ -2,7 +2,7 @@ const fs = require('fs');
 const path  = require('path');
 const { parse } = require('csv-parse');
 
-const HabitablePlanet = [];
+const HabitablePlanets = [];
 
 function isHabitablePlanet(planet) {
     return planet['koi_disposition'] = 'CONFIRMED' && planet['koi_insol'] > 0.36 && planet['koi_insol'] < 1.11 && planet['koi_prad'] < 1.6 && planet['kepler_name'] !== '';
@@ -17,7 +17,7 @@ function loadPlanetata() {
         }))
         .on('data', (data) => {
             if(isHabitablePlanet(data)){
-                HabitablePlanet.push(data);
+                HabitablePlanets.push(data);
             }
         })
         .on('error', (err) => {
@@ -30,7 +30,11 @@ function loadPlanetata() {
     });
 }
 
+function getAllPlanets() {
+    return HabitablePlanets;
+}
+
 module.exports = {
     loadPlanetata,
-    planets: HabitablePlanet
+    getAllPlanets
 }
