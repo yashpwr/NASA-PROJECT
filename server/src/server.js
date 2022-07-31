@@ -6,7 +6,7 @@ const { loadPlanetata } = require('./models/planets.model')
 
 const PORT = process.env.PORT || 8000;
 
-const MONGO_URL = 'mongodb+srv://yashpwr:yashpwr@nasacluster.pkbtk.mongodb.net/?retryWrites=true&w=majority';
+const MONGO_URL = 'mongodb+srv://yashpwr:yashpwr@nasacluster.pkbtk.mongodb.net/nasa?retryWrites=true&w=majority';
 
 const server = http.createServer(app);
 
