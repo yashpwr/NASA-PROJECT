@@ -11,7 +11,9 @@ function existLaunchWithId(launchId) {
 }
 
 async function getLatestFlightNumber(){
-    const latestLaunch = await launchesDatabase.findOne().sort('-flightNumber');
+    const latestLaunch = await launchesDatabase
+        .findOne()
+        .sort('-flightNumber');
 
     if(!latestLaunch){
         return DEFAULT_FLIGHT_NUMBER;
@@ -44,7 +46,7 @@ async function saveLaunch(launch){
     });
 
     if (!planet) {
-        throw new Error('No matching planet found');
+        // throw new Error('No matching planet found');
     }
 
     await launchesDatabase.updateOne({
@@ -54,17 +56,18 @@ async function saveLaunch(launch){
     });
 }
 
-function addNewLaunch(launch) {
-    latestFlightNumber++;
-    launches.set(
-        latestFlightNumber, 
-        Object.assign(launch,{
-            flightNumber: latestFlightNumber,
-            customers: ['ZTM', 'NASA'],
-            upcoming: true,
-            success: true,
-        })
-    );
+async function scheduleNewLaunch(launch){
+
+    const newFlightNumber = await getLatestFlightNumber();
+
+    const newLaunch = Object.assign(launch, {
+        flightNumber: newFlightNumber.flightNumber+1,
+        customers: ['ZTM', 'NASA'],
+        upcoming: true,
+        success: true,
+    });
+
+    await saveLaunch(newLaunch);
 }
 
 function abortLaunchById(lauchId) {
@@ -77,6 +80,6 @@ function abortLaunchById(lauchId) {
 module.exports = {
     existLaunchWithId,
     getAllLaunches,
-    addNewLaunch,
+    scheduleNewLaunch,
     abortLaunchById
 }
