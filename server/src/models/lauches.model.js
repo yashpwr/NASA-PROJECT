@@ -31,6 +31,11 @@ async function populateLaunches(){
         }
     });
 
+    if (response.status !== 200) {
+        console.log('Problem Downloading launch data');
+        throw new Error('launch data download failed')
+    }
+
     const launchDocs = response.data.docs;
 
     for(const launchDoc of launchDocs){
@@ -50,7 +55,10 @@ async function populateLaunches(){
             customers
         };
 
-        console.log(`${launch.flightNumber} ${launch.mission}`);
+        // console.log(`${launch.flightNumber} ${launch.mission}`);
+        await saveLaunch(launch)
+
+
     }
 
 }
@@ -68,8 +76,6 @@ async function loadLaunchData(){
     }else{
         await populateLaunches();
     }
-
-    
 }
 
 async function findLaunch(filter){
