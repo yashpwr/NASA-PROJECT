@@ -55,10 +55,7 @@ async function populateLaunches(){
             customers
         };
 
-        // console.log(`${launch.flightNumber} ${launch.mission}`);
         await saveLaunch(launch)
-
-
     }
 
 }
@@ -96,17 +93,6 @@ async function getLatestFlightNumber(){
     }
     return latestLaunch;
 }
-
-const launch = {
-    flightNumber: 100,
-    mission: 'Kepler Xploration X',
-    rocket: 'Explorer IS1',
-    launchDate: new Date('December 27, 2030'),
-    target: 'Keplar-442 b',
-    customers: ['ZTM', 'NASA'],
-    upcoming: true,
-    success: true
-};
 
 async function getAllLaunches(skip, limit) {
     return await launchesDatabase
