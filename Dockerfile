@@ -1,19 +1,23 @@
 FROM node:lts-alpine
+# RUN npm install -g npm@latest
+RUN npm install -g npm@7.19.1
 
-WORKDIR /app
+# WORKDIR /app
 
-COPY package*.json ./
+# COPY package.json ./
 
-COPY client/package*.json client/
-RUN npm run install-client --only=production
+COPY . .
 
-COPY server/package*.json server/
-RUN npm run install-server --only=production
+# COPY client/package.json /client
+RUN npm install --prefix client --omit=dev
 
-COPY client/ client/
+# COPY server/package.json /server
+RUN npm install --prefix server --omit=dev
+
+# COPY client /client
 RUN npm run build --prefix client
 
-COPY server/ server/
+COPY server /server
 
 USER node
 
